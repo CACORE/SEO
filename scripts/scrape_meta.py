@@ -16,43 +16,36 @@ except ImportError:
     sys.exit(1)
 
 SITE = "https://www.huitong1929.com"
-BLOG_SLUGS = [
-    "rice-and-grains",
-    "nuts-knowledge",
-    "health-lifestyle",
-    "kitchen-seasoning-ingredients",
-]
 OUTPUT = Path(__file__).parent.parent / "data" / "site_meta.json"
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; SEO-audit/1.0)"}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8",
+}
+
+# 已知文章 URL（從部落格首頁抓到的）
+KNOWN_URLS = [
+    "/blogs/rice-and-grains/how-to-cook-chickpeas-guide",
+    "/blogs/rice-and-grains/rice-weevils-handling-storage",
+    "/blogs/rice-and-grains/black-rice-vs-purple-rice-difference",
+    "/blogs/rice-and-grains/what-is-resistant-starch-benefits-foods",
+    "/blogs/rice-and-grains/how-to-cook-rice-water-ratio",
+    "/blogs/rice-and-grains/high-protein-beans-vs-starch-beans",
+    "/blogs/rice-and-grains/五穀米推薦-選購指南",
+    "/blogs/rice-and-grains/whole-grains-complete-guide",
+    "/blogs/rice-and-grains/惠通行-燕麥片-健康早餐-10分鐘",
+    "/blogs/kitchen-seasoning-ingredients/cooking-oil-smoke-point-guide",
+    "/blogs/kitchen-seasoning-ingredients/light-vs-dark-soy-sauce-difference-guide",
+]
 
 
-def get_article_urls(blog_slug):
-    urls = []
-    page = 1
-    while True:
-        url = f"{SITE}/blogs/{blog_slug}?page={page}"
-        r = requests.get(url, headers=HEADERS, timeout=10)
-        if r.status_code != 200:
-            break
-        soup = BeautifulSoup(r.text, "html.parser")
-        links = soup.select("a[href*='/blogs/" + blog_slug + "/']")
-        found = set()
-        for a in links:
-            href = a.get("href", "")
-            if f"/blogs/{blog_slug}/" in href and href != f"/blogs/{blog_slug}/":
-                full = urljoin(SITE, href.split("?")[0])
-                found.add(full)
-        if not found:
-            break
-        urls.extend(found)
-        page += 1
-        time.sleep(0.5)
-    return list(set(urls))
+def get_all_urls():
+    return [SITE + path for path in KNOWN_URLS]
 
 
 def scrape_meta(url):
     try:
-        r = requests.get(url, headers=HEADERS, timeout=10)
+        r = requests.get(url, headers=HEADERS, timeout=30)
         soup = BeautifulSoup(r.text, "html.parser")
         title = soup.find("title")
         meta = soup.find("meta", attrs={"name": "description"})
