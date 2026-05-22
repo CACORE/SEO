@@ -1,0 +1,5 @@
+scripts/client_secret.json
+scripts/.gsc_token.json
+data/
+__pycache__/
+*.pyc
