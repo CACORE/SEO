@@ -61,12 +61,8 @@ def scrape_meta(url):
 
 
 def main():
-    all_urls = []
-    for slug in BLOG_SLUGS:
-        print(f"掃描 {slug}...")
-        urls = get_article_urls(slug)
-        print(f"  找到 {len(urls)} 篇")
-        all_urls.extend(urls)
+    all_urls = get_all_urls()
+    print(f"共 {len(all_urls)} 篇文章")
 
     print(f"\n共 {len(all_urls)} 篇，開始抓 meta...")
     results = []
