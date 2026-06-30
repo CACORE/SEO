@@ -102,9 +102,9 @@ python scripts/analyze.py
 
 ---
 
-## 在 Shopify 哪裡改
+## 在 EasyStore 哪裡改
 
-網路商店 → 網誌 → 選文章 → 拉到最下面「搜尋引擎列表預覽」→ 點「編輯網站 SEO」
+後台 → 網誌 → 選文章 → 找「搜尋引擎優化」區塊
 - **頁面標題**：對應 Google 搜尋結果的藍色標題
 - **說明**：對應 Google 搜尋結果的灰色描述文字
 
@@ -117,3 +117,19 @@ python scripts/analyze.py
 - 點擊數有沒有增加（即使排名沒變）
 
 如果 CTR 上升但點擊沒增加，代表排名掉了；如果兩個都上升，代表成功。
+
+---
+
+## claude-seo 技能（補 GSC 看不到的層面）
+
+這些技能獨立於 /fetch → /analyze → /act 循環，需要時直接呼叫，目標網站統一用 `https://www.huitong1929.com`。不需要額外 API key（GSC 的 OAuth 已在 scripts/ 裡）。
+
+| 技能 | 用途 | 建議時機 |
+|------|------|----------|
+| `/seo-technical` | 爬取/索引/手機/CWV 技術問題 | 每季一次，或排名突然下跌時 |
+| `/seo-schema` | 檢測並補 Product/Article/FAQ Schema | 每季一次，或新增頁面類型後 |
+| `/seo-content` | E-E-A-T、資訊密度、薄內容偵測 | /act B 類文章改稿前 |
+| `/seo-sxo` | 診斷 B 類卡在 6-15 名的原因（搜尋意圖不符等） | B 類改了一輪後仍無進展時 |
+| `/seo-drift` | 監控已改的 title/meta 有無被蓋回去 | 每次 /fetch 前快速確認 |
+| `/seo-geo` | AI 搜尋（ChatGPT/Perplexity/AI Overviews）能見度 | 每半年一次 |
+| `/seo-content-brief` | 生成 C 類新文章競品分析大綱 | C 類出現、準備寫新文章時 |

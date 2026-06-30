@@ -1,0 +1,179 @@
+{
+  "_readme": "huitong1929.com Schema Markup — 2026-06-17。分四個區塊：homepage / product_template / article_template / breadcrumb_*。靜態範例可直接貼入 Google Rich Results Test 驗證，Liquid 模板貼入 EasyStore 主題。",
+
+  "homepage": {
+    "_note": "貼入首頁 <head> 或 theme.liquid 的 {% if template == 'index' %} 區塊",
+    "Organization": {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "惠穀實業有限公司",
+      "alternateName": "惠通行",
+      "url": "https://www.huitong1929.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.huitong1929.com/[YOUR_LOGO_PATH].png",
+        "_note": "請替換為實際 logo 圖片完整 URL，建議 600×60px 以上"
+      },
+      "foundingDate": "1929",
+      "description": "創立於1929年的迪化街百年老店，專注天然穀物、機能米與醬料食用油，現為第四代經營。",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "迪化街一段175號2樓",
+        "addressLocality": "大同區",
+        "addressRegion": "台北市",
+        "postalCode": "103",
+        "addressCountry": "TW"
+      },
+      "telephone": "+886-2-2557-4719",
+      "sameAs": [
+        "https://www.instagram.com/huitong.1929/",
+        "https://lin.ee/F3R73Rg"
+      ]
+    },
+    "WebSite": {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "惠通行",
+      "url": "https://www.huitong1929.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.huitong1929.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  },
+
+  "product_template": {
+    "_note": "貼入 product.liquid 或 theme.liquid 的 {% if template == 'product' %} 區塊。靜態範例以「穀和滿福養生十穀米」為例；Liquid 版本供套用全站。",
+
+    "static_example": {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "【大稻埕惠通行】穀和滿福 養生十穀米 600g｜嚴選蓮子糙薏仁配方｜全家均衡營養主食 (真空包裝)",
+      "description": "600g真空包裝養生十穀米，嚴選糙米、燕麥粒、去芯蓮子、紅薏仁與芡實等十種優質穀物。富含膳食纖維與多種微量元素，低負擔特性有助於平穩釋放能量，提供均衡完整的營養，讓全家大小都吃得健康又滿足。",
+      "image": "https://cdn.store-assets.com/s/1380620/i/89261637.jpeg",
+      "brand": {
+        "@type": "Brand",
+        "name": "惠通行"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.huitong1929.com/products/family-healthy-ten-grains-rice",
+        "priceCurrency": "TWD",
+        "price": "139",
+        "availability": "https://schema.org/OutOfStock",
+        "_availability_note": "有庫存時改為 https://schema.org/InStock；售完時為 OutOfStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "惠穀實業有限公司"
+        }
+      }
+    },
+
+    "liquid_template": {
+      "_note": "貼入 EasyStore product.liquid。變數名稱以 EasyStore 平台文件為準，price 單位請確認（若為分則除以100）",
+      "_raw_liquid": "{% assign product_availability = 'https://schema.org/OutOfStock' %}{% if product.available %}{% assign product_availability = 'https://schema.org/InStock' %}{% endif %}<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Product\",\"name\":{{ product.title | json }},\"description\":{{ product.description | strip_html | truncate: 300 | json }},\"image\":{{ product.featured_image | img_url: 'master' | prepend: 'https:' | json }},\"brand\":{\"@type\":\"Brand\",\"name\":\"惠通行\"},\"offers\":{\"@type\":\"Offer\",\"url\":{{ shop.url | append: product.url | json }},\"priceCurrency\":\"TWD\",\"price\":{{ product.price | money_without_currency | remove: ',' | json }},\"availability\":{{ product_availability | json }},\"seller\":{\"@type\":\"Organization\",\"name\":\"惠穀實業有限公司\"}}}</script>"
+    }
+  },
+
+  "article_template": {
+    "_note": "貼入 article.liquid 或 theme.liquid 的 {% if template == 'article' %} 區塊。靜態範例以「食用油發煙點」文章為例。",
+
+    "static_example": {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "食用油發煙點完整解析：10種常用油的用途與挑選指南",
+      "image": "https://cdn.store-assets.com/s/1380620/f/16543294.png",
+      "datePublished": "2026-01-13",
+      "dateModified": "2026-06-10",
+      "author": {
+        "@type": "Organization",
+        "name": "惠通行",
+        "url": "https://www.huitong1929.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "惠穀實業有限公司",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.huitong1929.com/[YOUR_LOGO_PATH].png"
+        }
+      },
+      "url": "https://www.huitong1929.com/blogs/kitchen-seasoning-ingredients/cooking-oil-smoke-point-guide",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.huitong1929.com/blogs/kitchen-seasoning-ingredients/cooking-oil-smoke-point-guide"
+      }
+    },
+
+    "liquid_template": {
+      "_note": "貼入 EasyStore article.liquid。datePublished/dateModified 格式需為 ISO 8601 (YYYY-MM-DD)。",
+      "_raw_liquid": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":{{ article.title | json }},\"image\":{{ article.image | img_url: 'master' | prepend: 'https:' | json }},\"datePublished\":{{ article.published_at | date: '%Y-%m-%d' | json }},\"dateModified\":{{ article.updated_at | date: '%Y-%m-%d' | json }},\"author\":{\"@type\":\"Organization\",\"name\":\"惠通行\",\"url\":\"https://www.huitong1929.com\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"惠穀實業有限公司\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.huitong1929.com/[YOUR_LOGO_PATH].png\"}},\"url\":{{ shop.url | append: article.url | json }},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":{{ shop.url | append: article.url | json }}}}</script>"
+    }
+  },
+
+  "breadcrumb_product": {
+    "_note": "BreadcrumbList for 產品頁，可與 Product schema 合併在同一 <script> 標籤內（用 @graph）",
+    "static_example": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "首頁",
+          "item": "https://www.huitong1929.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "所有商品",
+          "item": "https://www.huitong1929.com/collections/all"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "穀和滿福 養生十穀米 600g",
+          "item": "https://www.huitong1929.com/products/family-healthy-ten-grains-rice"
+        }
+      ]
+    }
+  },
+
+  "breadcrumb_article": {
+    "_note": "BreadcrumbList for 文章頁",
+    "static_example": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "首頁",
+          "item": "https://www.huitong1929.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "惠穀圖書館",
+          "item": "https://www.huitong1929.com/blogs/grain-knowledge"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "廚房調味與食材知識",
+          "item": "https://www.huitong1929.com/blogs/kitchen-seasoning-ingredients"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "食用油發煙點完整解析",
+          "item": "https://www.huitong1929.com/blogs/kitchen-seasoning-ingredients/cooking-oil-smoke-point-guide"
+        }
+      ]
+    }
+  }
+}
